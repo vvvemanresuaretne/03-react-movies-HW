@@ -1,6 +1,25 @@
 {
   "dependencies": {
     "axios": "^1.9.0",
-    "react-hot-toast": "^2.5.2"
-  }
+    "react-hot-toast": "^2.5.2",
+    "react-scripts": "^5.0.1"
+  },
+  "name": "03-react-movies-hw",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vvvemanresuaretne/03-react-movies-HW.git"
+  },
+  "keywords": [],
+  "author": "Vasylkovskyi Vladyslav <vvvasikovskyi@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vvvemanresuaretne/03-react-movies-HW/issues"
+  },
+  "homepage": "https://github.com/vvvemanresuaretne/03-react-movies-HW#readme",
+  "description": ""
 }

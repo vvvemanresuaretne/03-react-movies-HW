@@ -1,28 +1,25 @@
 import axios, { AxiosResponse } from 'axios';
-import { Movie } from '../types/movie';
+import type { Movie } from '../types/movie';
 
-const BASE_URL = 'https://api.themoviedb.org/3/search/movie';
-const TOKEN = 'тут_твій_токен'; // можеш зберігати в env-змінній
+const API_URL = 'https://developer.themoviedb.org/docs/getting-started';
+const TOKEN = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMGQ3NWU3ZmRhNDQwYTJmYzg2M2U2NWI1YTIwM2M3MyIsIm5iZiI6MTc0OTQ5Nzg1My45NjMsInN1YiI6IjY4NDczN2ZkOGNlNzI1MmYzNzlmNTEzYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.rFLbPf9D0lES322qH4js6ndMyjrQ73IzEGg9laBpLVk';
 
-interface FetchMoviesResponse {
-  page: number;
+interface MoviesResponse {
   results: Movie[];
-  total_pages: number;
-  total_results: number;
 }
 
-export const fetchMovies = async (query: string): Promise<Movie[]> => {
+export const fetchMovies = async (): Promise<Movie[]> => {
   try {
-    const response: AxiosResponse<FetchMoviesResponse> = await axios.get(BASE_URL, {
-      params: { query },
+    const config = {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
       },
-    });
-
+    };
+    const response: AxiosResponse<MoviesResponse> = await axios.get(API_URL, config);
     return response.data.results;
-  } catch (error) {
-    console.error('Error fetching movies:', error);
-    return [];
+  } catch (error: any) {
+    console.error('Ошибка при fetchMovies:', error.response ?? error.message);
+    throw error;
   }
 };
+
