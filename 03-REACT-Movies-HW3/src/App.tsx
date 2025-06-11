@@ -1,53 +1,44 @@
-import MovieModal from './components/MovieModal/MovieModal'; 
+'use client';
+
+import React, { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import SearchBar from './components/SearchBar.tsx';
+
+import { fetchMovies } from './services/fetchMovies';
 
 export default function App() {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const [movies, setMovies] = useState([]);
 
-  const handleSearch = async (query: string) => {
-    setMovies([]);
-    setLoading(true);
-    setError(false);
-    setSelectedMovie(null);
+  const handleSearch = async (query) => {
+    setMovies([]); // Очищаємо попередній результат
 
     try {
       const results = await fetchMovies(query);
 
       if (results.length === 0) {
         toast.error('No movies found for your request.');
+        return;
       }
 
       setMovies(results);
-    } catch (err) {
-      console.error('Fetch error:', err);
-      setError(true);
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      toast.error(error.message);
     }
-  };
-
-  const handleSelect = (movie: Movie) => {
-    setSelectedMovie(movie);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedMovie(null);
   };
 
   return (
     <>
-      <Toaster position="top-center" />
+      <Toaster />
       <SearchBar onSubmit={handleSearch} />
-      {loading && <Loader />}
-      {error && !loading && <ErrorMessage />}
-      {!loading && !error && (
-        <MovieGrid movies={movies} onSelect={handleSelect} />
-      )}
-      {selectedMovie && (
-        <MovieModal movie={selectedMovie} onClose={handleCloseModal} />
-      )}
+      <main>
+        {movies.length > 0 && (
+          <ul>
+            {movies.map((movie) => (
+              <li key={movie.id}>{movie.title}</li>
+            ))}
+          </ul>
+        )}
+      </main>
     </>
   );
 }
