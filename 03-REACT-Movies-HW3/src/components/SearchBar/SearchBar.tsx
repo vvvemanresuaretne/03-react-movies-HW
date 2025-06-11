@@ -1,6 +1,7 @@
 'use client';
 
-import { useRef } from 'react';
+import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import styles from './SearchBar.module.css';
 
@@ -23,7 +24,7 @@ export default function SearchBar({ onSubmit }) {
   };
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-testid="search-header">
       <div className={styles.container}>
         <a
           className={styles.link}
@@ -33,7 +34,12 @@ export default function SearchBar({ onSubmit }) {
         >
           Powered by TMDB
         </a>
-        <form className={styles.form} ref={formRef} onSubmit={handleSubmit}>
+        <form
+          className={styles.form}
+          ref={formRef}
+          onSubmit={handleSubmit}
+          data-testid="search-form"
+        >
           <input
             className={styles.input}
             type="text"
@@ -41,8 +47,13 @@ export default function SearchBar({ onSubmit }) {
             autoComplete="off"
             placeholder="Search movies..."
             autoFocus
+            data-testid="search-input"
           />
-          <button className={styles.button} type="submit">
+          <button
+            className={styles.button}
+            type="submit"
+            data-testid="search-button"
+          >
             Search
           </button>
         </form>
@@ -50,3 +61,7 @@ export default function SearchBar({ onSubmit }) {
     </header>
   );
 }
+
+SearchBar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
